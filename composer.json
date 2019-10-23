@@ -1,6 +1,8 @@
 {
     "name": "yjtec/laravel-cas-client",
     "description": "laravel cas client",
+    "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "kidkang",
