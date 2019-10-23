@@ -13,6 +13,9 @@ class ServiceProvider extends LaravelServiceProvider
                 $this->app['request']
             );
         });
+        Auth::provider('cas',function($app,array $config){
+            return new CasProvider($config);
+        });
     }
 
     public function register(){

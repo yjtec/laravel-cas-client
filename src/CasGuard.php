@@ -1,27 +1,37 @@
-<?php 
+<?php
 namespace Yjtec\CasClient;
+
 use Illuminate\Auth\TokenGuard;
-class CasGuard extends TokenGuard{
-    public function __construct($provider,$request){
-        $this->request = $request;
-        $this->provider = $provider;
-        $this->inputKey = 'ticket';
+
+class CasGuard extends TokenGuard
+{
+    public function __construct($provider, $request)
+    {
+        $this->request    = $request;
+        $this->provider   = $provider;
+        $this->inputKey   = 'ticket';
         $this->storageKey = 'ticket';
     }
-    public function user(){
-        if (! is_null($this->user)) {
+    public function user()
+    {
+        if (!is_null($this->user)) {
             return $this->user;
         }
-        $user = null;
+        $user  = null;
         $token = $this->getTokenForRequest();
-        if (! empty($token)) {
-            if($data = app('cas')->check($token)){
+        if (!empty($token)) {
+            if ($data = app('cas')->check($token)) {
                 $id = $data['user']['id'];
-                $user = $this->provider->retrieveByCredentials(
-                    ['id' => $id]
-                );
+                if ($this->provider instanceof \Yjtec\CasClient\CasProvider) {
+                    $user = $this->provider->retrieveByCredentials($data['user']);
+                } else {
+                    $user = $this->provider->retrieveByCredentials(
+                        ['id' => $id]
+                    );
+                }
+
             }
-            
+
         }
         return $this->user = $user;
     }
@@ -35,9 +45,9 @@ class CasGuard extends TokenGuard{
             $token = $this->request->header($this->inputKey);
         }
         return $token;
-    }    
-    public function validate(array $credentials = []){
+    }
+    public function validate(array $credentials = [])
+    {
         return false;
     }
 }
-?>
