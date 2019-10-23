@@ -1,0 +1,29 @@
+{
+    "name": "yjtec/laravel-cas-client",
+    "description": "laravel cas client",
+    "authors": [
+        {
+            "name": "kidkang",
+            "email": "723616880@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Yjtec\\CasClient\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yjtec\\CasClient\\ServiceProvider"
+            ],
+            "aliases":{
+                "cas":"Yjtec\\CasClient\\CasFacade"
+            }
+        }
+    },
+    "require": {
+        "yjtec/cloud": "^1.0"
+    }
+
+}
